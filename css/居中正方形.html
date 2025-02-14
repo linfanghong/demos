@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>居中正方形</title>
+    <style>
+      body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .square {
+        /* 第一种方法 */
+        /* height: 50vw; */
+        /* 第二种方式：考点 margin和padding值为百分数的时候，参考的是父元素的宽度 */
+        /* padding-top: 50%; */
+        /* 第三种方式 */
+        /* aspect-ratio: 1; */
+        background-color: aqua;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="width: 50%" class="square" />
+  </body>
+</html>
