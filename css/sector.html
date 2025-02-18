@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sector</title>
+    <style>
+      /* @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .sector {
+        width: 0;
+        height: 0;
+        border: 100px solid transparent;
+        border-top-color: aqua;
+        border-radius: 50%;
+      }
+      .rotate {
+        animation: spin 2s linear infinite;
+      } */
+
+      .sector {
+        width: 200px;
+        height: 200px;
+        background-color: aqua;
+        border-radius: 50%;
+        clip-path: polygon(50% 0, 50% 50%, 100% 0);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- <div class="sector rotate"></div> -->
+    <div class="sector"></div>
+  </body>
+</html>
