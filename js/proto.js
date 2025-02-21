@@ -124,3 +124,24 @@
 // const son2 = new Son()
 
 // ES6 class
+
+// class Father {
+//   constructor() {
+//     this.colors = ['red', 'green', 'yellow']
+//   }
+//   addColor(newColor) {
+//     this.colors.push(newColor)
+//   }
+// }
+
+// class Son extends Father {
+//   constructor() {
+//     super()
+//   }
+//   addColor(newColor) {
+//     console.log('111')
+//     super.addColor(newColor)
+//   }
+// }
+
+// const son1 = new Son()
