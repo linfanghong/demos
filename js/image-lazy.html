@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        height: 100dvh;
+        overflow: scroll;
+      }
+      .img-container {
+        width: 100%;
+        aspect-ratio: 4/3;
+      }
+      .img-item {
+        width: 100%;
+        object-fit: contain;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="img-container">
+        <img
+          src=""
+          class="img-item"
+          lazy="true"
+          data-origin="https://fastly.picsum.photos/id/832/400/300.jpg?hmac=JXpPx84IdDyq2MWlOJXOIqxfB9yQb6qQ_suhsxOy3qw"
+        />
+      </div>
+      <div class="img-container">
+        <img
+          src=""
+          class="img-item"
+          lazy="true"
+          data-origin="https://fastly.picsum.photos/id/832/400/300.jpg?hmac=JXpPx84IdDyq2MWlOJXOIqxfB9yQb6qQ_suhsxOy3qw"
+        />
+      </div>
+      <div class="img-container">
+        <img
+          src=""
+          class="img-item"
+          lazy="true"
+          data-origin="https://fastly.picsum.photos/id/832/400/300.jpg?hmac=JXpPx84IdDyq2MWlOJXOIqxfB9yQb6qQ_suhsxOy3qw"
+        />
+      </div>
+      <div class="img-container">
+        <img
+          src=""
+          class="img-item"
+          lazy="true"
+          data-origin="https://fastly.picsum.photos/id/832/400/300.jpg?hmac=JXpPx84IdDyq2MWlOJXOIqxfB9yQb6qQ_suhsxOy3qw"
+        />
+      </div>
+      <div class="img-container">
+        <img
+          src=""
+          class="img-item"
+          lazy="true"
+          data-origin="https://fastly.picsum.photos/id/832/400/300.jpg?hmac=JXpPx84IdDyq2MWlOJXOIqxfB9yQb6qQ_suhsxOy3qw"
+        />
+      </div>
+      <div class="img-container">
+        <img
+          src=""
+          class="img-item"
+          lazy="true"
+          data-origin="https://fastly.picsum.photos/id/832/400/300.jpg?hmac=JXpPx84IdDyq2MWlOJXOIqxfB9yQb6qQ_suhsxOy3qw"
+        />
+      </div>
+      <div class="img-container">
+        <img
+          src=""
+          class="img-item"
+          lazy="true"
+          data-origin="https://fastly.picsum.photos/id/832/400/300.jpg?hmac=JXpPx84IdDyq2MWlOJXOIqxfB9yQb6qQ_suhsxOy3qw"
+        />
+      </div>
+      <div class="img-container">
+        <img
+          src=""
+          class="img-item"
+          lazy="true"
+          data-origin="https://fastly.picsum.photos/id/832/400/300.jpg?hmac=JXpPx84IdDyq2MWlOJXOIqxfB9yQb6qQ_suhsxOy3qw"
+        />
+      </div>
+      <div class="img-container">
+        <img
+          src=""
+          class="img-item"
+          lazy="true"
+          data-origin="https://fastly.picsum.photos/id/832/400/300.jpg?hmac=JXpPx84IdDyq2MWlOJXOIqxfB9yQb6qQ_suhsxOy3qw"
+        />
+      </div>
+    </div>
+
+    <script>
+      const container = document.querySelector('.container')
+      const loadImg = () => {
+        const ViewHeight = container.scrollTop + container.clientHeight
+        const imgs = document.querySelectorAll('img[data-origin][lazy]')
+        imgs.forEach((node) => {
+          const source = node.dataset.origin
+          const sizeSet = node.getBoundingClientRect()
+          if (sizeSet.top < ViewHeight) {
+            const img = new Image()
+            img.src = source
+            img.onload = function () {
+              node.src = img.src
+            }
+            node.removeAttribute('data-origin')
+            node.removeAttribute('lazy')
+          }
+        })
+      }
+      loadImg()
+      container.addEventListener('scroll', loadImg)
+    </script>
+  </body>
+</html>
