@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <style type="text/css">
+      #container {
+        width: 400px;
+        height: 300px;
+        padding: 10px;
+        border: 1px solid #aaaaaa;
+      }
+    </style>
+    <script type="text/javascript">
+      function dragStart(event) {
+        id = event.target.id
+        event.dataTransfer.setData('text', event.target.id)
+      }
+
+      function handleDragOver(event) {
+        event.preventDefault()
+      }
+
+      function handelDrop(event) {
+        event.preventDefault()
+        event.target.appendChild(
+          document.getElementById(event.dataTransfer.getData('text'))
+        )
+      }
+    </script>
+  </head>
+  <body>
+    <p>请把图片拖放到矩形中：</p>
+    <div
+      id="container"
+      ondragover="handleDragOver(event)"
+      ondrop="handelDrop(event)"
+    ></div>
+    <br />
+    <img
+      id="drag-content"
+      src="https://fastly.picsum.photos/id/832/400/300.jpg?hmac=JXpPx84IdDyq2MWlOJXOIqxfB9yQb6qQ_suhsxOy3qw"
+      draggable="true"
+      ondragstart="dragStart(event)"
+    />
+  </body>
+</html>
