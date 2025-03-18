@@ -1,24 +1,3 @@
-// const p1 = new Promise((resolve, reject) => {
-//   console.log('create a promise')
-//   resolve('成功了')
-// })
-
-// console.log('after new promise')
-
-// const p2 = p1.then((data) => {
-//   console.log(data)
-//   throw new Error('失败了')
-// })
-
-// const p3 = p2.then(
-//   (data) => {
-//     console.log('success', data)
-//   },
-//   (err) => {
-//     console.log('failed', err)
-//   }
-// )
-
 class SelfPromise {
   constructor(executor) {
     this.state = 'pending'
@@ -36,74 +15,65 @@ class SelfPromise {
     if (this.state === 'pending') {
       this.state = 'fulfilled'
       this.value = value
-      const resolveFunc = this.resolveHandlerList.shift()
-      resolveFunc && resolveFunc(this.value)
+      this.resolveHandlerList.forEach((fn) => {
+        fn(value)
+      })
     }
   }
   reject = (reason) => {
     if (this.state === 'pending') {
       this.state = 'rejected'
       this.reason = reason
-      const rejectFunc = this.rejectHandlerList.shift()
-      rejectFunc && rejectFunc(this.reason)
+      this.rejectHandlerList.forEach((fn) => {
+        fn(reason)
+      })
     }
   }
   then = (onFulfilled, onRejected) => {
-    if (!onFulfilled) {
-      return this
-    }
-    return new SelfPromise((resolve, reject) => {
-      try {
-        if (this.state === 'pending') {
-          this.resolveHandlerList.push(onFulfilled)
-          this.rejectHandlerList.push(onRejected)
-        }
-        if (this.state === 'fulfilled' && this.value && onFulfilled) {
-          resolve(onFulfilled(this.value))
-        }
-        if (this.state === 'rejected' && this.reason && onRejected) {
-          reject(onRejected(this.reason))
-        }
-      } catch (err) {
-        reject(err)
+    const promise2 = new SelfPromise((resolve, reject) => {
+      if (this.state === 'fulfilled') {
+        const result = onFulfilled(this.value)
+        queueMicrotask(() => {
+          if (promise2 === result) {
+            return reject(
+              new TypeError('Chaining cycle detected for promise #<Promise>')
+            )
+          } else if (result instanceof SelfPromise) {
+            result.then(resolve, reject)
+          } else {
+            resolve(result)
+          }
+        })
+      } else if (this.state === 'rejected') {
+        const result = onRejected(this.reason)
+        reject(result)
+      } else if (this.state === 'pending') {
+        this.resolveHandlerList.push(() => {
+          setTimeout(onFulfilled, 0)
+        })
+        this.rejectHandlerList.push(() => {
+          setTimeout(onRejected, 0)
+        })
       }
     })
-  }
-  catch = (onRejected) => {
-    return new SelfPromise((resolve, reject) => {
-      try {
-        if (this.state === 'pending') {
-          this.rejectHandlerList.push(onRejected)
-        }
-        if (this.state === 'rejected' && this.reason && onRejected) {
-          reject(onRejected(this.reason))
-        }
-      } catch (err) {
-        reject(err)
-      }
-    })
+
+    return promise2
   }
 }
 
 const n1 = new SelfPromise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('成功了')
+  }, 1000)
   console.log('create a promise')
-  resolve('成功了')
 })
 
-console.log('after new promise')
-
-const n2 = n1.then((data) => {
-  console.log(data)
-  throw new Error('失败了')
+n1.then((data) => {
+  console.log('111', data)
+  return 5
+  // return new SelfPromise((resolve, reject) => {
+  //   resolve('成功了2')
+  // })
+}).then((data) => {
+  console.log('222', data)
 })
-
-const n3 = n2.then()
-
-n3.then(
-  (data) => {
-    console.log('success', data)
-  },
-  (err) => {
-    console.log('failed', err)
-  }
-)
